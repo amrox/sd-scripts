@@ -1,0 +1,38 @@
+#!/usr/bin/env bash
+
+# run all sysclean operations
+
+set -euo pipefail
+
+MY_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+ME=$(basename "$0")
+
+echo "$MY_DIR"
+
+source "${HOME}/sd/.lib/utils.bash"
+
+# TODO: iterate
+
+CMDS=(docker conan brew)
+
+#for cmd in ${CMDS[@]}; do
+
+for entry in "$MY_DIR"/*; do
+
+    # skip myself
+    if [ "$entry" == "${MY_DIR}/${ME}" ]; then
+        continue
+    fi
+
+    # skip non-executable files
+    if ! is_exec "${entry}"; then
+        continue
+    fi
+
+    cmd=$(basename "${entry}")
+
+    echo
+    log_info running sysclean "$cmd"
+    ("${HOME}/sd/sysclean/$cmd") || true
+done
+

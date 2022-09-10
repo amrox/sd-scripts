@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+source "${HOME}/sd/.lib/utils.bash"
+
